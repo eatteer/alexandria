@@ -13,11 +13,11 @@ export const findAvailablesByKeyword = async (keyword: string) => {
   throw new Error(error.message, { cause: error })
 }
 
-export const findByIsbn13 = async (isbn13: string) => {
+export const findByIsbn13 = async (isbn13: string): Promise<Book> => {
   const endpoint = `${url}/books/${isbn13}`
   const response = await fetch(endpoint)
   if (response.ok) {
-    const book = await response.json()
+    const book = await response.json() as Book
     return book
   }
   const error = await response.json()

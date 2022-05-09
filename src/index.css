@@ -20,6 +20,14 @@
     bg-white;
   }
 
+  .bottom-bar {
+    @apply fixed bottom-0
+    flex items-center
+    w-full p-4 
+    border-t border-slate-200
+    bg-white;
+  }
+
   .input {
     @apply block w-full
     py-2 px-4

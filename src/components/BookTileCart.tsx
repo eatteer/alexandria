@@ -2,18 +2,20 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 /* Entities */
-import { BookPurchase } from '../entities/BookPurchase'
 import { Book } from '../entities/Book'
 
+/* Dtos */
+import { BookPurchaseDto } from '../dtos/BookPurchaseDto'
+
 /* Redux */
-import { removeBook, updateBookQuantity } from '../redux/purchase'
+import { removeBook, updateBookQuantity } from '../redux/shopping-cart'
 
 /* Components */
 import { QuantitityField } from './QuantityField'
 
 /* Component props */
 type Props = {
-  bookPurchase: BookPurchase
+  bookPurchase: BookPurchaseDto
 }
 
 /* Component */

@@ -1,27 +1,42 @@
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Form, Formik } from 'formik'
+
+/* Redux */
+import { logout } from '../redux/user'
+
+/* Hooks */
+import useDrawer from '../hooks/useDrawer'
+import useModal from '../hooks/useModal'
+
+/* Components */
+import { InputField } from './InputField'
+import { Drawer } from './Drawer'
+
+/* Pages */
+import { SignInModal } from '../pages/SignInModal'
+import { SignUpModal } from '../pages/SignUpModal'
+
+/* Icons */
+import { IoCartOutline, IoHomeOutline } from 'react-icons/io5'
+import { IoBagHandleOutline } from 'react-icons/io5'
 import { IoMdBook } from 'react-icons/io'
 import { IoMdLogIn } from 'react-icons/io'
 import { IoMdLogOut } from 'react-icons/io'
-import { IoCartOutline, IoHomeOutline } from 'react-icons/io5'
-import { IoBagHandleOutline } from 'react-icons/io5'
-import { Form, Formik } from 'formik'
-import { InputField } from './InputField'
-import { Appbar } from './Appbar'
 import { GrMenu } from 'react-icons/gr'
-import { useNavigate } from 'react-router-dom'
-import { Drawer } from './Drawer'
-import useDrawer from '../hooks/useDrawer'
-import useModal from '../hooks/useModal'
-import { SignInModal } from '../pages/SignInModal'
-import { SignUpModal } from '../pages/SignUpModal'
-import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../redux/user'
 
-export const Navbar: React.FC = () => {
-  console.log('Rendering MainBar')
+/* Component */
+export const Topbar: React.FC = () => {
+  console.log('Rendering MainBar') /* FOR DEBUGGINS PURPOSES */
+
+  /* Constants */
+  const navigationDelay = 350
+
+  /* Hooks */
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { isOpen, openDrawer, closeDrawer } = useDrawer()
-  const user = useSelector<any, any>((state) => state.user)
+  const user = useSelector<any, any>((store) => store.user)
   const {
     isOpen: isOpenSignInModal,
     openModal: openSignInModal,
@@ -33,28 +48,42 @@ export const Navbar: React.FC = () => {
     closeModal: closeSignUpModal,
   } = useModal()
 
+  /* Handlers */
   const handleLogout = () => {
     dispatch(logout())
-    closeDrawer()
   }
 
   const navigateToShoppingCart = () => {
-    navigate('/shopping-cart')
     closeDrawer()
+    setTimeout(() => {
+      navigate('/shopping-cart')
+    }, navigationDelay)
   }
 
   const navigateToHome = () => {
-    navigate('/')
+    closeDrawer()
+    setTimeout(() => {
+      navigate('/')
+    }, navigationDelay)
   }
 
   const navigateToHistory = () => {
-    navigate('/history')
+    closeDrawer()
+    setTimeout(() => {
+      navigate('/history')
+    }, navigationDelay)
   }
 
+  /* Interface */
   return (
     <>
+      {/* Topbar */}
       <nav className='top-bar'>
-        <GrMenu className='cursor-pointer mr-4' size={24} onClick={openDrawer} />
+        <GrMenu
+          className='cursor-pointer mr-4'
+          size={24}
+          onClick={openDrawer}
+        />
         <Formik
           initialValues={{ keyword: '' }}
           onSubmit={(values) => {
@@ -72,6 +101,7 @@ export const Navbar: React.FC = () => {
           )}
         </Formik>
       </nav>
+      {/* Drawer */}
       <Drawer isOpen={isOpen} closeDrawer={closeDrawer}>
         {user ? (
           <div>

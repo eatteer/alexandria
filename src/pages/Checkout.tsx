@@ -2,11 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 /* Redux */
-import { resetPurchase } from '../redux/purchase'
+import { reset } from '../redux/shopping-cart'
 import { register } from '../services/purchases-service'
-
-/* Components */
-import { Appbar } from '../components/Appbar'
 
 /* Images */
 import creditCard from '../assets/credit-card.png'
@@ -16,9 +13,9 @@ import { RiMastercardLine, RiPaypalLine, RiVisaFill } from 'react-icons/ri'
 import { IoArrowBackOutline } from 'react-icons/io5'
 
 /* Component */
-export const Payment: React.FC = () => {
+export const Checkout: React.FC = () => {
   const store = useSelector<any, any>((store) => store)
-  const { user, purchase } = store
+  const { user, shoppingCart } = store
 
   /* Hooks */
   const dispatch = useDispatch()
@@ -27,8 +24,8 @@ export const Payment: React.FC = () => {
   /* Handlers */
   const registerPurchase = async () => {
     try {
-      await register(user.accessToken, purchase)
-      dispatch(resetPurchase())
+      await register(user.accessToken, shoppingCart)
+      dispatch(reset())
       navigateToHome()
     } catch (error) {
       console.error(error)
@@ -36,7 +33,7 @@ export const Payment: React.FC = () => {
   }
 
   const navigateToHome = () => {
-    navigate('/home')
+    navigate('/')
   }
 
   const navigateBack = () => {
@@ -46,13 +43,13 @@ export const Payment: React.FC = () => {
   /* Interface */
   return (
     <>
-      {/* Appbar */}
-      <Appbar>
-        <IoArrowBackOutline size={24} onClick={navigateBack} />
+      {/* Topbar */}
+      <nav className='top-bar'>
+        <IoArrowBackOutline className='mr-4' size={24} onClick={navigateBack} />
         <h1 className='text-2xl font-bold'>Checkout proccess</h1>
-      </Appbar>
+      </nav>
       {/* Body */}
-      {/* Margin bottom to separete body from bottom navigation bar */}
+      {/* Margin bottom to separete body from bottom bar */}
       <div className='mb-[75px] p-4'>
         <img className='mb-4' src={creditCard} alt='' />
         <p className='mb-4 text-xl font-medium'>Payment information</p>
@@ -90,22 +87,13 @@ export const Payment: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* Bottom navigation bar */}
-      <div
-        className='
-          fixed bottom-0
-          flex justify-between items-center
-          w-full
-          p-4 
-          border-t border-slate-200
-          bg-white
-        '
-      >
-        <span className='text font-medium'>Total: ${purchase.total}</span>
+      {/* Bottom bar */}
+      <nav className='bottom-bar justify-between'>
+        <span className='text font-medium'>Total: ${shoppingCart.total}</span>
         <button className='button button-primary' onClick={registerPurchase}>
           Confirm payment
         </button>
-      </div>
+      </nav>
     </>
   )
 }

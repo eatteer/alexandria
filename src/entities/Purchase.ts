@@ -1,13 +1,8 @@
 import { BookPurchase } from "./BookPurchase"
 
-export class Purchase {
+export type Purchase = {
+  id: number
+  date: Date
+  total: number
   bookPurchases: BookPurchase[]
-  total: number = 0
-
-  constructor(bookPurchases: BookPurchase[]) {
-    this.bookPurchases = bookPurchases
-    bookPurchases.forEach(bookPurchase => {
-      this.total += bookPurchase.total
-    })
-  }
 }

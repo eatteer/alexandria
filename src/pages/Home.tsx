@@ -1,5 +1,5 @@
 /* Components */
-import { Navbar } from '../components/Navbar'
+import { Topbar } from '../components/Topbar'
 
 /* Images */
 import book from '../assets/book.png'
@@ -11,8 +11,8 @@ export function Home() {
   /* Interface */
   return (
     <>
-      {/* Navbar */}
-      <Navbar />
+      {/* Topbar */}
+      <Topbar />
       {/* Intro */}
       <div className='flex flex-col items-center p-4'>
         {/* Image */}
@@ -21,7 +21,7 @@ export function Home() {
         <h1 className='mb-4 text-center text-2xl font-bold'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit
         </h1>
-        <p className='mb-4 text-justify font-medium text-slate-500'>
+        <p className='mb-4 text-center font-medium text-slate-500'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis impedit
           atque alias magnam officia quia adipisci magni incidunt rerum vitae
           fugiat blanditiis facere, eaque quod quasi necessitatibus rem eveniet

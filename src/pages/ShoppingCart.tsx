@@ -6,14 +6,14 @@ import useModal from '../hooks/useModal'
 
 /* Components */
 import { BookTileCart } from '../components/BookTileCart'
-import { Navbar } from '../components/Navbar'
+import { Topbar } from '../components/Topbar'
 
 /* Modals */
 import { SignInModal } from './SignInModal'
 import { SignUpModal } from './SignUpModal'
 
 /* Images */
-import shoppingCart from '../assets/shopping-cart.png'
+import shoppingCartImage from '../assets/shopping-cart.png'
 
 /* Icons */
 import { MdPayment } from 'react-icons/md'
@@ -25,7 +25,7 @@ export const ShoppingCart: React.FC = () => {
   /* Hooks */
   const navigate = useNavigate()
   const store = useSelector<any, any>((store) => store)
-  const { user, purchase } = store
+  const { user, shoppingCart } = store
 
   const {
     isOpen: isOpenSignInModal,
@@ -45,29 +45,29 @@ export const ShoppingCart: React.FC = () => {
       openSignInModal()
       return
     }
-    navigate('/payment')
+    navigate('/checkout')
   }
 
   /* Interface */
   return (
     <>
-      {/* Navbar */}
-      <Navbar />
+      {/* Topbar */}
+      <Topbar />
       {/* Cart is empty */}
-      {purchase.bookPurchases.length === 0 && (
+      {shoppingCart.bookPurchases.length === 0 && (
         <div className='flex flex-col items-center p-4'>
           <h1 className='text-2xl text-center font-bold'>
             Your shopping cart is empty
           </h1>
           <p className='mb-8 text-xl text-slate-500'>Try adding some books</p>
-          <img className='w-52' src={shoppingCart} alt='' />
+          <img className='w-52' src={shoppingCartImage} alt='' />
         </div>
       )}
-      {purchase.bookPurchases.length > 0 && (
+      {shoppingCart.bookPurchases.length > 0 && (
         <>
           {/* Book purchases */}
           <div className='mb-[75px]'>
-            {purchase.bookPurchases.map((bookPurchase: any) => {
+            {shoppingCart.bookPurchases.map((bookPurchase: any) => {
               return (
                 <BookTileCart
                   key={bookPurchase.book.isbn13}
@@ -76,25 +76,18 @@ export const ShoppingCart: React.FC = () => {
               )
             })}
           </div>
-          {/* Bottom navigation bar */}
-          <div
-            className='
-              fixed bottom-0
-              flex justify-between items-center
-              w-full
-              p-4 
-              border-t border-slate-200
-              bg-white
-            '
-          >
-            <span className='text font-medium'>Total: ${purchase.total}</span>
+          {/* Bottom bar */}
+          <nav className='bottom-bar justify-between'>
+            <span className='text font-medium'>
+              Total: ${shoppingCart.total}
+            </span>
             <button className='button button-primary' onClick={proceedToPay}>
               Proceed to pay
               <span>
                 <MdPayment size={24} />
               </span>
             </button>
-          </div>
+          </nav>
         </>
       )}
       {/* Modals */}

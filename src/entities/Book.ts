@@ -8,5 +8,5 @@ export type Book = {
   genre: string
   rating: number
   author: string
-  bookSaleData: BookSaleData
+  bookSaleData: BookSaleData /* Ignored when fetching purchase history */
 }

@@ -10,10 +10,10 @@ import { Book } from '../entities/Book'
 import { findByIsbn13 } from '../services/books-service'
 
 /* Redux */
-import { addBook } from '../redux/purchase'
+import { addBook } from '../redux/shopping-cart'
 
 /* Components */
-import { Navbar } from '../components/Navbar'
+import { Topbar } from '../components/Topbar'
 
 /* Icons */
 import { IoCartOutline } from 'react-icons/io5'
@@ -50,8 +50,8 @@ export const Detail: React.FC = () => {
   /* Interface */
   return (
     <>
-      {/* Navbar */}
-      <Navbar />
+      {/* Topbar */}
+      <Topbar />
       {/* Book detail */}
       {book && (
         <div className='flex flex-col items-center p-4'>

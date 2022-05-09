@@ -9,7 +9,7 @@ import { findAvailablesByKeyword } from '../services/books-service'
 
 /* Components */
 import { BookTile } from '../components/BookTile'
-import { Navbar } from '../components/Navbar'
+import { Topbar } from '../components/Topbar'
 
 /* Images */
 import problem from '../assets/problem.png'
@@ -42,8 +42,8 @@ export const Search: React.FC = () => {
   /* Interface */
   return (
     <>
-      {/* Navbar */}
-      <Navbar />
+      {/* Topbar */}
+      <Topbar />
       {/* Nothing found */}
       {books && books.length === 0 && (
         <div className='flex flex-col items-center mt-4'>
