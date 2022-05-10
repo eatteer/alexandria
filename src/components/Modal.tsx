@@ -1,18 +1,13 @@
 import { MouseEventHandler } from 'react'
-
-/* Icons */
 import { GrFormClose } from 'react-icons/gr'
 
-/* Component props */
 type Props = {
   isOpen: boolean
   closeModal: Function
   children: JSX.Element | JSX.Element[]
 }
 
-/* Components */
 export const Modal: React.FC<Props> = ({ isOpen, closeModal, children }) => {
-  /* Handlers */
   const handleCloseModalOutside: MouseEventHandler = (event) => {
     if (event.target === event.currentTarget) {
       closeModal()
@@ -23,13 +18,10 @@ export const Modal: React.FC<Props> = ({ isOpen, closeModal, children }) => {
     closeModal()
   }
 
-  /* Handle on open (visible) styles */
   const isVisible = isOpen ? 'visible opacity-100' : 'invisible opacity-0'
   const isOverlayVisible = isOpen ? 'translate-y-[0%]' : 'translate-y-[100%]'
 
-  /* Interface */
   return (
-    /* Background */
     <div
       className={`
         z-20
@@ -42,7 +34,6 @@ export const Modal: React.FC<Props> = ({ isOpen, closeModal, children }) => {
       `}
       onClick={handleCloseModalOutside}
     >
-      {/* Container */}
       <div
         className={`
           absolute bottom-0
@@ -51,7 +42,6 @@ export const Modal: React.FC<Props> = ({ isOpen, closeModal, children }) => {
           ease-in-out duration-300 
         `}
       >
-        {/* Header */}
         <div
           className='
             flex
@@ -66,7 +56,6 @@ export const Modal: React.FC<Props> = ({ isOpen, closeModal, children }) => {
             onClick={handleCloseModal}
           />
         </div>
-        {/* Content */}
         <div className='p-8 bg-white'>{children}</div>
       </div>
     </div>

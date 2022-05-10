@@ -1,37 +1,23 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-
-/* Entities */
 import { Book } from '../entities/Book'
-
-/* Dtos */
 import { BookPurchaseDto } from '../dtos/BookPurchaseDto'
-
-/* Redux */
 import { removeBook, updateBookQuantity } from '../redux/shopping-cart'
-
-/* Components */
 import { QuantitityField } from './QuantityField'
 
-/* Component props */
 type Props = {
   bookPurchase: BookPurchaseDto
 }
 
-/* Component */
 export const BookTileCart: React.FC<Props> = ({ bookPurchase }) => {
-  /* States */
   const [quantity, setNumber] = useState(bookPurchase.quantity)
-  
-  /* Hooks */
+
   const dispatch = useDispatch()
 
-  /* Effects */
   useEffect(() => {
     dispatch(updateBookQuantity(bookPurchase.book, quantity))
   }, [quantity])
 
-  /* Handlers */
   const increment = () => {
     if (quantity < bookPurchase.book.bookSaleData.stock) {
       setNumber((prev) => prev + 1)
@@ -48,7 +34,6 @@ export const BookTileCart: React.FC<Props> = ({ bookPurchase }) => {
     dispatch(removeBook(book))
   }
 
-  /* Interface */
   return (
     <div
       key={bookPurchase.book.isbn13}

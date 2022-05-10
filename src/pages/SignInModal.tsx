@@ -1,45 +1,33 @@
 import { Formik, Form } from 'formik'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
-
-/* Services */
 import { auth } from '../services/users-service'
-
-/* Redux */
 import { login } from '../redux/user'
-
-/* Components */
 import { Modal } from '../components/Modal'
 import { InputField } from '../components/InputField'
-
-/* Configs */
 import { toastErrorOptions } from '../components/toast/toast-options'
 
-/* Component props */
 type Props = {
   isOpen: boolean
   closeModal: Function
   openSignUpModal: Function
 }
-/* Component */
+
 export const SignInModal: React.FC<Props> = ({
   isOpen,
   closeModal,
   openSignUpModal,
 }) => {
-  console.log('Rendering SignIn') /* FOR DEBUGGING PURPOSES */
+  console.log('Rendering SignIn')
 
-  /* Hooks */
   const dispatch = useDispatch()
 
-  /* Handlers */
   const handleOpenSignUpModal = (resetForm: any) => {
     openSignUpModal()
     closeModal()
     resetForm()
   }
 
-  /* Formik context */
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
@@ -68,9 +56,7 @@ export const SignInModal: React.FC<Props> = ({
         }
       }}
     >
-      {/* Interface */}
       {({ resetForm }) => (
-        /* Modal */
         <Modal
           isOpen={isOpen}
           closeModal={() => {
@@ -78,7 +64,6 @@ export const SignInModal: React.FC<Props> = ({
             closeModal()
           }}
         >
-          {/* Modal content */}
           <Form>
             <h2 className='mb-2 text-4xl text-center font-bold'>Sign in</h2>
             <h3 className='mb-4 text-lg text-center text-gray-500 '>

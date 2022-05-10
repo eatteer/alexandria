@@ -1,47 +1,36 @@
 import React from 'react'
 import { Form, Formik } from 'formik'
 import { toast } from 'react-toastify'
-
-/* Services */
 import {
   determineExistenceByEmail,
   determineExistenceByUsername,
   register,
 } from '../services/users-service'
-
-/* Components */
 import { Modal } from '../components/Modal'
 import { InputField } from '../components/InputField'
-
-/* Configs */
 import {
   toastErrorOptions,
   toastSuccessOptions,
 } from '../components/toast/toast-options'
-
-/* Component props */
 type Props = {
   isOpen: boolean
   closeModal: Function
   openSignInModal: Function
 }
 
-/* Component */
 export const SignUpModal: React.FC<Props> = ({
   isOpen,
   closeModal,
   openSignInModal,
 }) => {
-  console.log('Rendering SignUp') /* FOR DEBUGGING PURPOSES */
+  console.log('Rendering SignUp')
 
-  /* Handlerss */
   const onClickOpenSignIn = (resetForm: Function) => {
     closeModal()
     resetForm()
     openSignInModal()
   }
 
-  /* Formik context */
   return (
     <Formik
       initialValues={{
@@ -98,9 +87,7 @@ export const SignUpModal: React.FC<Props> = ({
         }
       }}
     >
-      {/* Interface */}
       {({ resetForm }) => (
-        /* Modal */
         <Modal
           isOpen={isOpen}
           closeModal={() => {
@@ -108,7 +95,6 @@ export const SignUpModal: React.FC<Props> = ({
             resetForm()
           }}
         >
-          {/* Modal content */}
           <Form>
             <h2 className='mb-2 text-4xl text-center font-bold'>Sign up</h2>
             <h3 className='mb-4 text-lg text-gray-500 text-center'>

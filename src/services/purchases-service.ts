@@ -1,15 +1,15 @@
 import { BookPurchaseDto } from "../dtos/BookPurchaseDto";
 import { Purchase } from "../entities/Purchase";
 
-const url = `http://${process.env.REACT_APP_SERVER}`
+const URL_API = process.env.REACT_APP_SERVER
 
 type registerPurchaseDto = {
   bookPurchases: BookPurchaseDto[];
   total: number;
 }
 
-export const register = async (accessToken: string, registerPurchaseDto: registerPurchaseDto) => {
-  const endpoint = `${url}/purchases`
+export const register = async (accessToken: string, registerPurchaseDto: registerPurchaseDto): Promise<void> => {
+  const endpoint = `${URL_API}/purchases`
   const response = await fetch(endpoint, {
     method: 'POST',
     headers: {
@@ -18,15 +18,13 @@ export const register = async (accessToken: string, registerPurchaseDto: registe
     },
     body: JSON.stringify(registerPurchaseDto)
   })
-  if (response.ok) {
-    return
-  }
+  if (response.ok) return
   const error = await response.json()
   throw new Error(error.message, { cause: error })
 }
 
 export const findByUser = async (accessToken: string): Promise<Purchase[]> => {
-  const endpoint = `${url}/purchases/history`
+  const endpoint = `${URL_API}/purchases/history`
   const response = await fetch(endpoint, {
     method: 'GET',
     headers: {

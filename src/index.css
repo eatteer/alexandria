@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 @layer components {
-
   .top-bar {
     @apply sticky top-0
     flex items-center
@@ -82,7 +81,7 @@
   }
 
   .badge {
-    @apply text-xs font-semibold mr-2 px-2.5 py-0.5 rounded;
+    @apply text-xs font-semibold px-2.5 py-0.5 rounded;
   }
 
   .badge-green {

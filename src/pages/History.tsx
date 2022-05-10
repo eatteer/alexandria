@@ -1,27 +1,16 @@
 import { useEffect, useState } from 'react'
 import { IoArrowBackOutline } from 'react-icons/io5'
-
-/* Redux */
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Topbar } from '../components/Topbar'
-
-/* Entities */
 import { Purchase } from '../entities/Purchase'
-
-/* Services */
 import { findByUser } from '../services/purchases-service'
 
-/* Component */
 export const History: React.FC = () => {
-  /* States */
   const [purchases, setPurchases] = useState<Purchase[] | null>(null)
 
-  /* Hooks */
   const navigate = useNavigate()
   const user = useSelector<any, any>((store) => store.user)
 
-  /* Effects */
   useEffect(() => {
     if (user) {
       const fetch = async () => {
@@ -32,12 +21,14 @@ export const History: React.FC = () => {
     }
   }, [])
 
-  /* Handlers */
   const navigateBack = () => {
     navigate(-1)
   }
 
-  /* Interface */
+  const navigateToHistoryDetail = (purchase: Purchase) => {
+    navigate('/history/detail', { state: { purchase } })
+  }
+
   return (
     <>
       <nav className='top-bar'>
@@ -48,14 +39,20 @@ export const History: React.FC = () => {
         <div>Your history purchases is empty</div>
       )}
       {purchases && purchases.length > 0 && (
-        <div className='p-4'>
+        <div>
           {purchases.map((purchase) => {
             const date = new Date(purchase.date)
             return (
-              <div key={purchase.id}>
-                <p>{date.toLocaleDateString('en-US')}</p>
-                <p>{date.toLocaleTimeString('en-US')}</p>
-                <p>{purchase.total}</p>
+              <div
+                key={purchase.id}
+                className='p-4 border-b border-slate-200 last:border-0'
+                onClick={() => navigateToHistoryDetail(purchase)}
+              >
+                <p className='font-bold'>{date.toLocaleDateString('en-US')}</p>
+                <p className='text-slate-600'>
+                  {date.toLocaleTimeString('en-US')}
+                </p>
+                <p className='text-slate-600'>${purchase.total}</p>
               </div>
             )
           })}

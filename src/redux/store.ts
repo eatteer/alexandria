@@ -1,6 +1,6 @@
 import { combineReducers, createStore } from "redux"
 
-/* Reducers */
+
 import { userReducer } from './user'
 import { shoppingCartReducer } from './shopping-cart'
 

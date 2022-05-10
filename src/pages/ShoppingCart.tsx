@@ -1,28 +1,16 @@
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
-/* Hooks */
 import useModal from '../hooks/useModal'
-
-/* Components */
 import { BookTileCart } from '../components/BookTileCart'
 import { Topbar } from '../components/Topbar'
-
-/* Modals */
 import { SignInModal } from './SignInModal'
 import { SignUpModal } from './SignUpModal'
-
-/* Images */
 import shoppingCartImage from '../assets/shopping-cart.png'
-
-/* Icons */
 import { MdPayment } from 'react-icons/md'
 
-/* Component */
 export const ShoppingCart: React.FC = () => {
-  console.log('Rendering ShoppingCart') /* FOR DEBUGGING PURPOSES */
+  console.log('Rendering ShoppingCart')
 
-  /* Hooks */
   const navigate = useNavigate()
   const store = useSelector<any, any>((store) => store)
   const { user, shoppingCart } = store
@@ -39,7 +27,6 @@ export const ShoppingCart: React.FC = () => {
     closeModal: closeSignUpModal,
   } = useModal()
 
-  /* Handlers */
   const proceedToPay = () => {
     if (!user) {
       openSignInModal()
@@ -48,12 +35,9 @@ export const ShoppingCart: React.FC = () => {
     navigate('/checkout')
   }
 
-  /* Interface */
   return (
     <>
-      {/* Topbar */}
       <Topbar />
-      {/* Cart is empty */}
       {shoppingCart.bookPurchases.length === 0 && (
         <div className='flex flex-col items-center p-4'>
           <h1 className='text-2xl text-center font-bold'>
@@ -65,7 +49,6 @@ export const ShoppingCart: React.FC = () => {
       )}
       {shoppingCart.bookPurchases.length > 0 && (
         <>
-          {/* Book purchases */}
           <div className='mb-[75px]'>
             {shoppingCart.bookPurchases.map((bookPurchase: any) => {
               return (
@@ -76,11 +59,8 @@ export const ShoppingCart: React.FC = () => {
               )
             })}
           </div>
-          {/* Bottom bar */}
           <nav className='bottom-bar justify-between'>
-            <span className='text font-medium'>
-              Total: ${shoppingCart.total}
-            </span>
+            <span className='text font-bold'>Total: ${shoppingCart.total}</span>
             <button className='button button-primary' onClick={proceedToPay}>
               Proceed to pay
               <span>
@@ -90,7 +70,6 @@ export const ShoppingCart: React.FC = () => {
           </nav>
         </>
       )}
-      {/* Modals */}
       <SignInModal
         isOpen={isOpenSignInModal}
         closeModal={closeSignInModal}

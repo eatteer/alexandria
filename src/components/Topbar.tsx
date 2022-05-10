@@ -1,23 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Form, Formik } from 'formik'
-
-/* Redux */
 import { logout } from '../redux/user'
-
-/* Hooks */
 import useDrawer from '../hooks/useDrawer'
 import useModal from '../hooks/useModal'
-
-/* Components */
 import { InputField } from './InputField'
 import { Drawer } from './Drawer'
-
-/* Pages */
 import { SignInModal } from '../pages/SignInModal'
 import { SignUpModal } from '../pages/SignUpModal'
-
-/* Icons */
 import { IoCartOutline, IoHomeOutline } from 'react-icons/io5'
 import { IoBagHandleOutline } from 'react-icons/io5'
 import { IoMdBook } from 'react-icons/io'
@@ -25,14 +15,11 @@ import { IoMdLogIn } from 'react-icons/io'
 import { IoMdLogOut } from 'react-icons/io'
 import { GrMenu } from 'react-icons/gr'
 
-/* Component */
 export const Topbar: React.FC = () => {
-  console.log('Rendering MainBar') /* FOR DEBUGGINS PURPOSES */
+  console.log('Rendering MainBar')
 
-  /* Constants */
   const navigationDelay = 350
 
-  /* Hooks */
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { isOpen, openDrawer, closeDrawer } = useDrawer()
@@ -48,7 +35,6 @@ export const Topbar: React.FC = () => {
     closeModal: closeSignUpModal,
   } = useModal()
 
-  /* Handlers */
   const handleLogout = () => {
     dispatch(logout())
   }
@@ -74,10 +60,8 @@ export const Topbar: React.FC = () => {
     }, navigationDelay)
   }
 
-  /* Interface */
   return (
     <>
-      {/* Topbar */}
       <nav className='top-bar'>
         <GrMenu
           className='cursor-pointer mr-4'
@@ -101,7 +85,6 @@ export const Topbar: React.FC = () => {
           )}
         </Formik>
       </nav>
-      {/* Drawer */}
       <Drawer isOpen={isOpen} closeDrawer={closeDrawer}>
         {user ? (
           <div>
@@ -133,6 +116,12 @@ export const Topbar: React.FC = () => {
           </div>
         ) : (
           <div>
+            <div className='tile' onClick={navigateToHome}>
+              <span>
+                <IoHomeOutline size={24} />
+              </span>
+              Home
+            </div>
             <div className='tile' onClick={openSignInModal}>
               <span>
                 <IoMdLogIn size={24} />
@@ -154,7 +143,6 @@ export const Topbar: React.FC = () => {
           </div>
         )}
       </Drawer>
-      {/* Modals */}
       <SignInModal
         isOpen={isOpenSignInModal}
         closeModal={closeSignInModal}
