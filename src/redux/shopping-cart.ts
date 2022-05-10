@@ -19,7 +19,7 @@ const _updateQuantity = (shoppingCart: ShoppingCartDto, book: Book, quantity: nu
   return updatedShoppingCart
 }
 
-export const shoppingCart = (shoppingCart = initialShoppingCart, action: any) => {
+export const shoppingCartReducer = (shoppingCart = initialShoppingCart, action: any) => {
   switch (action.type) {
     case 'SHOPPING_CART@ADD_BOOK': {
       const book = action.payload
