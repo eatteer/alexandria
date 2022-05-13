@@ -25,7 +25,7 @@ export const SignUpModal: React.FC<Props> = ({
 }) => {
   console.log('Rendering SignUp')
 
-  const onClickOpenSignIn = (resetForm: Function) => {
+  const handleOpenSignInModal = (resetForm: Function) => {
     closeModal()
     resetForm()
     openSignInModal()
@@ -116,7 +116,7 @@ export const SignUpModal: React.FC<Props> = ({
               Already have an account?{' '}
               <span
                 className='cursor-pointer font-medium text-blue-600'
-                onClick={() => onClickOpenSignIn(resetForm)}
+                onClick={() => handleOpenSignInModal(resetForm)}
               >
                 Sign in
               </span>
