@@ -5,8 +5,8 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { User } from './entities/User'
 import { ShoppingCartDto } from './dtos/ShoppingCartDto'
-import { login } from './redux/user'
-import { load } from './redux/shopping-cart'
+import { login } from './redux/user/action-creators'
+import { loadShoppingCart } from './redux/shopping-cart/action-creators'
 import { Home } from './pages/Home'
 import { Search } from './pages/Search'
 import { BookDetail } from './pages/BookDetail'
@@ -17,7 +17,7 @@ import { RequireAuth } from './router/RequireAuth'
 import { HistoryDetail } from './pages/HistoryDetail'
 
 function App() {
-  console.log('Rendering App')
+  // console.log('Rendering App')
 
   const dispatch = useDispatch()
 
@@ -31,7 +31,7 @@ function App() {
     const rawShoppingCart = localStorage.getItem('shoppingCart')
     if (rawShoppingCart) {
       const shoppingCart = JSON.parse(rawShoppingCart) as ShoppingCartDto
-      dispatch(load(shoppingCart))
+      dispatch(loadShoppingCart(shoppingCart))
     }
   }, [])
 

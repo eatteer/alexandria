@@ -1,8 +1,8 @@
 import { combineReducers, createStore } from "redux"
 
 
-import { userReducer } from './user'
-import { shoppingCartReducer } from './shopping-cart'
+import { userReducer } from './user/reducer'
+import { shoppingCartReducer } from './shopping-cart/reducer'
 
 export const reducer = combineReducers({ user: userReducer, shoppingCart: shoppingCartReducer })
 

@@ -1,7 +1,6 @@
 import { BookPurchaseDto } from "../dtos/BookPurchaseDto";
 import { Purchase } from "../entities/Purchase";
-
-const URL_API = process.env.REACT_APP_SERVER
+import { API_URL } from "../globals";
 
 type registerPurchaseDto = {
   bookPurchases: BookPurchaseDto[];
@@ -9,7 +8,7 @@ type registerPurchaseDto = {
 }
 
 export const register = async (accessToken: string, registerPurchaseDto: registerPurchaseDto): Promise<void> => {
-  const endpoint = `${URL_API}/purchases`
+  const endpoint = `${API_URL}/purchases`
   const response = await fetch(endpoint, {
     method: 'POST',
     headers: {
@@ -18,23 +17,25 @@ export const register = async (accessToken: string, registerPurchaseDto: registe
     },
     body: JSON.stringify(registerPurchaseDto)
   })
-  if (response.ok) return
-  const error = await response.json()
-  throw new Error(error.message, { cause: error })
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.message, { cause: error })
+  }
+  return
 }
 
 export const findByUser = async (accessToken: string): Promise<Purchase[]> => {
-  const endpoint = `${URL_API}/purchases/history`
+  const endpoint = `${API_URL}/purchases/history`
   const response = await fetch(endpoint, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${accessToken}`
     }
   })
-  if (response.ok) {
-    const purchases = await response.json() as Purchase[]
-    return purchases
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.message, { cause: error })
   }
-  const error = await response.json()
-  throw new Error(error.message, { cause: error })
+  const purchases = await response.json() as Purchase[]
+  return purchases
 }

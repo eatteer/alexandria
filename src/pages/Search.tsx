@@ -7,7 +7,7 @@ import { Topbar } from '../components/Topbar'
 import problem from '../assets/problem.png'
 
 export const Search: React.FC = () => {
-  console.log('Rendering Search')
+  // console.log('Rendering Search')
 
   const [books, setBooks] = useState<Book[] | null>(null)
 

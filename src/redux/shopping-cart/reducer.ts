@@ -1,13 +1,14 @@
-import { Book } from "../entities/Book";
-import { BookPurchaseDto } from "../dtos/BookPurchaseDto";
-import { ShoppingCartDto } from "../dtos/ShoppingCartDto";
+import { Book } from "../../entities/Book";
+import { BookPurchaseDto } from "../../dtos/BookPurchaseDto";
+import { ShoppingCartDto } from "../../dtos/ShoppingCartDto";
+import { SHOPPING_CART_ADD_BOOK, SHOPPING_CART_LOAD_SHOPPING_CART, SHOPPING_CART_REMOVE_BOOK, SHOPPING_CART_RESET_SHOPPING_CART, SHOPPING_CART_UPDATE_BOOK_QUANTITY } from "./types";
 
 const initialShoppingCart: ShoppingCartDto = {
   bookPurchases: [],
   total: 0,
 }
 
-const _updateQuantity = (shoppingCart: ShoppingCartDto, book: Book, quantity: number) => {
+const updateBookQuantity = (shoppingCart: ShoppingCartDto, book: Book, quantity: number) => {
   const updatedBookPurchase = new BookPurchaseDto(book, quantity)
   const updatedBookPurchases = shoppingCart.bookPurchases.map((bookPurchase) => {
     if (bookPurchase.book.isbn13 === book.isbn13) {
@@ -21,14 +22,14 @@ const _updateQuantity = (shoppingCart: ShoppingCartDto, book: Book, quantity: nu
 
 export const shoppingCartReducer = (shoppingCart = initialShoppingCart, action: any) => {
   switch (action.type) {
-    case 'SHOPPING_CART@ADD_BOOK': {
-      const book = action.payload
+    case SHOPPING_CART_ADD_BOOK: {
+      const book = action.payload.book as Book
       const bookPurchaseToUpdate = shoppingCart.bookPurchases.find(bookPurchase => bookPurchase.book.isbn13 === book.isbn13)
 
       /* Book is already in the cart */
       if (bookPurchaseToUpdate) {
         const quantity = bookPurchaseToUpdate.quantity + 1
-        const updatedShoppingCart = _updateQuantity(shoppingCart, book, quantity)
+        const updatedShoppingCart = updateBookQuantity(shoppingCart, book, quantity)
         localStorage.setItem('shoppingCart', JSON.stringify(updatedShoppingCart))
         return updatedShoppingCart
       }
@@ -39,36 +40,41 @@ export const shoppingCartReducer = (shoppingCart = initialShoppingCart, action: 
         quantity: 1,
         total: book.bookSaleData.price,
       }
+
       const updatedBookPurchases = [...shoppingCart.bookPurchases, newBookPurchase]
       const updatedShoppingCart = new ShoppingCartDto(updatedBookPurchases)
       localStorage.setItem('shoppingCart', JSON.stringify(updatedShoppingCart))
+
       return updatedShoppingCart
     }
 
-    case 'SHOPPING_CART@REMOVE_BOOK': {
-      const book = action.payload
-      const updatedBookPurchases = shoppingCart.bookPurchases.filter(
-        (bookPurchase) => bookPurchase.book.isbn13 !== book.isbn13
-      )
+    case SHOPPING_CART_REMOVE_BOOK: {
+      const book = action.payload.book as Book
+
+      const updatedBookPurchases = shoppingCart.bookPurchases.filter((bookPurchase) => bookPurchase.book.isbn13 !== book.isbn13)
+
       const updatedShoppingCart = new ShoppingCartDto(updatedBookPurchases)
       localStorage.setItem('shoppingCart', JSON.stringify(updatedShoppingCart))
+
       return updatedShoppingCart
     }
 
-    case 'SHOPPING_CART@UPDATE_BOOK_QUANTITY': {
-      const book = action.payload.book
-      const quantity = action.payload.quantity
-      const updatedShoppingCart = _updateQuantity(shoppingCart, book, quantity)
+    case SHOPPING_CART_UPDATE_BOOK_QUANTITY: {
+      const book = action.payload.book as Book
+      const quantity = action.payload.quantity as number
+
+      const updatedShoppingCart = updateBookQuantity(shoppingCart, book, quantity)
       localStorage.setItem('shoppingCart', JSON.stringify(updatedShoppingCart))
+
       return updatedShoppingCart
     }
 
-    case 'SHOPPING_CART@LOAD_SHOPPING_CART': {
+    case SHOPPING_CART_LOAD_SHOPPING_CART: {
       const shoppingCart = action.payload
       return shoppingCart
     }
 
-    case 'SHOPPING_CART@RESET_SHOPPING_CART': {
+    case SHOPPING_CART_RESET_SHOPPING_CART: {
       localStorage.removeItem('shoppingCart')
       return initialShoppingCart
     }
@@ -78,39 +84,3 @@ export const shoppingCartReducer = (shoppingCart = initialShoppingCart, action: 
   }
 }
 
-export const addBook = (book: Book) => {
-  return {
-    type: 'SHOPPING_CART@ADD_BOOK',
-    payload: book
-  }
-}
-
-export const removeBook = (book: Book) => {
-  return {
-    type: 'SHOPPING_CART@REMOVE_BOOK',
-    payload: book
-  }
-}
-
-export const updateBookQuantity = (book: Book, quantity: number) => {
-  return {
-    type: 'SHOPPING_CART@UPDATE_BOOK_QUANTITY',
-    payload: {
-      book,
-      quantity
-    }
-  }
-}
-
-export const load = (purchase: ShoppingCartDto) => {
-  return {
-    type: 'SHOPPING_CART@LOAD_SHOPPING_CART',
-    payload: purchase
-  }
-}
-
-export const reset = () => {
-  return {
-    type: 'SHOPPING_CART@RESET_SHOPPING_CART'
-  }
-}

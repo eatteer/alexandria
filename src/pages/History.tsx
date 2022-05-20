@@ -36,7 +36,12 @@ export const History: React.FC = () => {
         <h1 className='text-2xl font-bold'>History purchase</h1>
       </nav>
       {purchases && purchases.length === 0 && (
-        <div>Your history purchases is empty</div>
+        <div className='flex flex-col items-center p-4'>
+        <h1 className='text-2xl text-center font-bold'>
+          Your history is empty
+        </h1>
+        <p className='mb-8 text-xl text-slate-500'>Try buying books</p>
+      </div>
       )}
       {purchases && purchases.length > 0 && (
         <div>

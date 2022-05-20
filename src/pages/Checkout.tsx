@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { reset } from '../redux/shopping-cart'
+import { resetShoppingCart } from '../redux/shopping-cart/action-creators'
 import { register } from '../services/purchases-service'
 import creditCard from '../assets/credit-card.png'
 import { RiMastercardLine, RiPaypalLine, RiVisaFill } from 'react-icons/ri'
 import { IoArrowBackOutline } from 'react-icons/io5'
+import useModal from '../hooks/useModal'
+import { Modal } from '../components/Modal'
 
 export const Checkout: React.FC = () => {
   const store = useSelector<any, any>((store) => store)
@@ -12,10 +14,12 @@ export const Checkout: React.FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const { isOpen, openModal, closeModal } = useModal()
+
   const registerPurchase = async () => {
     try {
       await register(user.accessToken, shoppingCart)
-      dispatch(reset())
+      dispatch(resetShoppingCart())
       navigateToHome()
     } catch (error) {
       console.error(error)
@@ -37,7 +41,7 @@ export const Checkout: React.FC = () => {
         <h1 className='text-2xl font-bold'>Checkout proccess</h1>
       </nav>
       <div className='mb-[75px] p-4'>
-        <img className='mb-4' src={creditCard} alt='' />
+        {/* <img className='mb-4' src={creditCard} alt='Credit card' /> */}
         <p className='mb-4 text-xl font-medium'>Payment information</p>
         <div className='flex mb-4 space-x-4'>
           <span className='py-2 px-4 border-2 rounded border-blue-600'>
@@ -74,10 +78,27 @@ export const Checkout: React.FC = () => {
       </div>
       <nav className='bottom-bar justify-between'>
         <span className='text font-bold'>Total: ${shoppingCart.total}</span>
-        <button className='button button-primary' onClick={registerPurchase}>
+        <button className='button button-primary' onClick={openModal}>
           Confirm payment
         </button>
       </nav>
+      <Modal isOpen={isOpen} closeModal={closeModal}>
+        <div className='p-4'>
+          <h2 className='text-xl font-bold'>Confirm payment</h2>
+          <p className='mb-8'>Do you want to confirm the payment?</p>
+          <div className='flex justify-end space-x-4'>
+            <button className='button button-light' onClick={closeModal}>
+              Cancel
+            </button>
+            <button
+              className='button button-primary'
+              onClick={registerPurchase}
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      </Modal>
     </>
   )
 }

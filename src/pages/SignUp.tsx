@@ -6,28 +6,21 @@ import {
   determineExistenceByUsername,
   register,
 } from '../services/users-service'
-import { Modal } from '../components/Modal'
 import { InputField } from '../components/InputField'
 import {
   toastErrorOptions,
   toastSuccessOptions,
 } from '../components/toast/toast-options'
 type Props = {
-  isOpen: boolean
   closeModal: Function
   openSignInModal: Function
 }
 
-export const SignUpModal: React.FC<Props> = ({
-  isOpen,
-  closeModal,
-  openSignInModal,
-}) => {
-  console.log('Rendering SignUp')
+export const SignUp: React.FC<Props> = ({ closeModal, openSignInModal }) => {
+  // console.log('Rendering SignUp')
 
-  const handleOpenSignInModal = (resetForm: Function) => {
+  const handleOpenSignInModal = () => {
     closeModal()
-    resetForm()
     openSignInModal()
   }
 
@@ -73,13 +66,12 @@ export const SignUpModal: React.FC<Props> = ({
         }
         return errors
       }}
-      onSubmit={async (values, helpers) => {
+      onSubmit={async (values) => {
         const { username, email, password } = values
         try {
           await register(username, email, password)
           toast.success('User created sucessfully', toastSuccessOptions)
           closeModal()
-          helpers.resetForm()
           openSignInModal()
         } catch (error: any) {
           console.error(error)
@@ -87,42 +79,45 @@ export const SignUpModal: React.FC<Props> = ({
         }
       }}
     >
-      {({ resetForm }) => (
-        <Modal
-          isOpen={isOpen}
-          closeModal={() => {
-            closeModal()
-            resetForm()
-          }}
-        >
-          <Form>
-            <h2 className='mb-2 text-4xl text-center font-bold'>Sign up</h2>
-            <h3 className='mb-4 text-lg text-gray-500 text-center'>
-              Create a free account
-            </h3>
-            <div className='space-y-4'>
-              <InputField type='text' name='username' placeholder='Username' />
-              <InputField type='email' name='email' placeholder='Email' />
-              <InputField
-                type='password'
-                name='password'
-                placeholder='Password'
-              />
-              <button className='button button-primary w-full' type='submit'>
-                Create your free account
-              </button>
-            </div>
-            <div className='mt-8 text-center'>
-              Already have an account?{' '}
-              <span
-                className='cursor-pointer font-medium text-blue-600'
-                onClick={() => handleOpenSignInModal(resetForm)}
-              >
-                Sign in
-              </span>
-            </div>
-          </Form>
-        </Modal>
+      {() => (
+        <Form className='p-8'>
+          <h2 className='mb-2 text-4xl text-center font-bold'>Sign up</h2>
+          <h3 className='mb-4 text-lg text-gray-500 text-center'>
+            Create a free account
+          </h3>
+          <div className='space-y-4'>
+            <InputField
+              type='text'
+              name='username'
+              placeholder='Username'
+              autoComplete='off'
+            />
+            <InputField
+              type='email'
+              name='email'
+              placeholder='Email'
+              autoComplete='off'
+            />
+            <InputField
+              type='password'
+              name='password'
+              placeholder='Password'
+              autoComplete='off'
+            />
+            <button className='button button-primary w-full' type='submit'>
+              Create your free account
+            </button>
+          </div>
+          <div className='mt-8 text-center'>
+            Already have an account?{' '}
+            <span
+              className='cursor-pointer font-medium text-blue-600'
+              onClick={handleOpenSignInModal}
+            >
+              Sign in
+            </span>
+          </div>
+        </Form>
       )}
     </Formik>
   )

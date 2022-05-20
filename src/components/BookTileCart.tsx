@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Book } from '../entities/Book'
 import { BookPurchaseDto } from '../dtos/BookPurchaseDto'
-import { removeBook, updateBookQuantity } from '../redux/shopping-cart'
+import { removeBook, updateBookQuantity } from '../redux/shopping-cart/action-creators'
 import { QuantitityField } from './QuantityField'
 
 type Props = {

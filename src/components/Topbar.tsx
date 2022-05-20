@@ -1,24 +1,25 @@
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Form, Formik } from 'formik'
-import { logout } from '../redux/user'
+import { logout } from '../redux/user/action-creators'
 import useDrawer from '../hooks/useDrawer'
 import useModal from '../hooks/useModal'
 import { InputField } from './InputField'
 import { Drawer } from './Drawer'
-import { SignInModal } from '../pages/SignInModal'
-import { SignUpModal } from '../pages/SignUpModal'
+import { SignIn } from '../pages/SignIn'
+import { SignUp } from '../pages/SignUp'
 import { IoCartOutline, IoHomeOutline } from 'react-icons/io5'
 import { IoBagHandleOutline } from 'react-icons/io5'
 import { IoMdBook } from 'react-icons/io'
 import { IoMdLogIn } from 'react-icons/io'
 import { IoMdLogOut } from 'react-icons/io'
 import { GrMenu } from 'react-icons/gr'
+import { BottomModal } from './BottomModal'
 
 export const Topbar: React.FC = () => {
-  console.log('Rendering MainBar')
+  // console.log('Rendering MainBar')
 
-  const navigationDelay = 350
+  const navigationDelay = 300
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -70,6 +71,13 @@ export const Topbar: React.FC = () => {
         />
         <Formik
           initialValues={{ keyword: '' }}
+          validate={({ keyword }) => {
+            let errors: any = {}
+            if (!keyword) {
+              errors.keyword = 'Required'
+            }
+            return errors
+          }}
           onSubmit={(values) => {
             navigate(`/search/${values.keyword}`)
           }}
@@ -80,6 +88,8 @@ export const Topbar: React.FC = () => {
                 name='keyword'
                 type='text'
                 placeholder='Search a book'
+                showError={false}
+                autoComplete='off'
               />
             </Form>
           )}
@@ -143,16 +153,18 @@ export const Topbar: React.FC = () => {
           </div>
         )}
       </Drawer>
-      <SignInModal
-        isOpen={isOpenSignInModal}
-        closeModal={closeSignInModal}
-        openSignUpModal={openSignUpModal}
-      />
-      <SignUpModal
-        isOpen={isOpenSignUpModal}
-        closeModal={closeSignUpModal}
-        openSignInModal={openSignInModal}
-      />
+      <BottomModal isOpen={isOpenSignInModal} closeModal={closeSignInModal}>
+        <SignIn
+          closeModal={closeSignInModal}
+          openSignUpModal={openSignUpModal}
+        />
+      </BottomModal>
+      <BottomModal isOpen={isOpenSignUpModal} closeModal={closeSignUpModal}>
+        <SignUp
+          closeModal={closeSignUpModal}
+          openSignInModal={openSignInModal}
+        />
+      </BottomModal>
     </>
   )
 }

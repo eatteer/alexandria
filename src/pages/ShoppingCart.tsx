@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux'
 import useModal from '../hooks/useModal'
 import { BookTileCart } from '../components/BookTileCart'
 import { Topbar } from '../components/Topbar'
-import { SignInModal } from './SignInModal'
-import { SignUpModal } from './SignUpModal'
+import { SignIn } from './SignIn'
+import { SignUp } from './SignUp'
 import shoppingCartImage from '../assets/shopping-cart.png'
 import { MdPayment } from 'react-icons/md'
+import { BottomModal } from '../components/BottomModal'
 
 export const ShoppingCart: React.FC = () => {
-  console.log('Rendering ShoppingCart')
+  // console.log('Rendering ShoppingCart')
 
   const navigate = useNavigate()
   const store = useSelector<any, any>((store) => store)
@@ -43,7 +44,7 @@ export const ShoppingCart: React.FC = () => {
           <h1 className='text-2xl text-center font-bold'>
             Your shopping cart is empty
           </h1>
-          <p className='mb-8 text-xl text-slate-500'>Try adding some books</p>
+          <p className='mb-8 text-xl text-slate-600'>Try adding some books</p>
           <img className='w-52' src={shoppingCartImage} alt='' />
         </div>
       )}
@@ -70,16 +71,18 @@ export const ShoppingCart: React.FC = () => {
           </nav>
         </>
       )}
-      <SignInModal
-        isOpen={isOpenSignInModal}
-        closeModal={closeSignInModal}
-        openSignUpModal={openSignUpModal}
-      />
-      <SignUpModal
-        isOpen={isOpenSignUpModal}
-        closeModal={closeSignUpModal}
-        openSignInModal={openSignInModal}
-      />
+      <BottomModal isOpen={isOpenSignInModal} closeModal={closeSignInModal}>
+        <SignIn
+          closeModal={closeSignInModal}
+          openSignUpModal={openSignUpModal}
+        />
+      </BottomModal>
+      <BottomModal isOpen={isOpenSignUpModal} closeModal={closeSignUpModal}>
+        <SignUp
+          closeModal={closeSignUpModal}
+          openSignInModal={openSignInModal}
+        />
+      </BottomModal>
     </>
   )
 }

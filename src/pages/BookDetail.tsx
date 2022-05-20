@@ -4,13 +4,13 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { Book } from '../entities/Book'
 import { findByIsbn13 } from '../services/books-service'
-import { addBook } from '../redux/shopping-cart'
+import { addBook } from '../redux/shopping-cart/action-creators'
 import { Topbar } from '../components/Topbar'
 import { IoCartOutline } from 'react-icons/io5'
 import { toastSuccessOptions } from '../components/toast/toast-options'
 
 export const BookDetail: React.FC = () => {
-  console.log('Rendering Detail')
+  // console.log('Rendering Detail')
 
   const [book, setBook] = useState<Book | null>(null)
 
@@ -27,7 +27,7 @@ export const BookDetail: React.FC = () => {
 
   const addBookToShoppingCart = () => {
     dispatch(addBook(book!))
-    toast.success('Added to cart', toastSuccessOptions)
+    toast.success('Book added to cart', toastSuccessOptions)
   }
 
   return (
